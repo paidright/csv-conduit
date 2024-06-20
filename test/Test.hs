@@ -9,7 +9,6 @@ import Control.Exception
 import qualified Data.ByteString.Char8 as B
 import Data.CSV.Conduit
 import Data.CSV.Conduit.Conversion
-import Data.CSV.Conduit.Types
 import qualified Data.Map as Map
 import qualified Data.Map.Ordered as OMap
 import Data.Monoid as M
@@ -107,7 +106,7 @@ test_orderedMap = do
     pairs = [("b", "bval"), ("a", "aval")]
 
 csvSettings :: CSVSettings
-csvSettings = defCSVSettings {csvQuoteCharAndStyle = Just ('`', DontQuoteEmpty)}
+csvSettings = defCSVSettings {csvQuoteChar = Just '`'}
 
 testFile1, testFile2 :: FilePath
 testFile1 = "test/test.csv"
