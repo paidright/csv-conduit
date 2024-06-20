@@ -160,7 +160,7 @@ type Field = B8.ByteString
 -- >         | otherwise     = mzero
 class FromRecord a where
     parseRecord :: Record -> Parser a
-  
+
 #ifdef GENERICS
     default parseRecord :: (Generic a, GFromRecord (Rep a)) => Record -> Parser a
     parseRecord r = to A.<$> gparseRecord r
@@ -778,8 +778,6 @@ instance Monad Parser where
     m >>= g = Parser $ \kf ks -> let ks' a = unParser (g a) kf ks
                                  in unParser m kf ks'
     {-# INLINE (>>=) #-}
-    return a = Parser $ \_kf ks -> ks a
-    {-# INLINE return #-}
 
 #if MIN_VERSION_base(4,13,0)
 instance MonadFail Parser where
@@ -794,7 +792,7 @@ instance Functor Parser where
     {-# INLINE fmap #-}
 
 instance Applicative Parser where
-    pure  = return
+    pure  = pure
     {-# INLINE pure #-}
     (<*>) = apP
     {-# INLINE (<*>) #-}
@@ -820,7 +818,7 @@ apP :: Parser (a -> b) -> Parser a -> Parser b
 apP d e = do
   b <- d
   a <- e
-  return (b a)
+  pure (b a)
 {-# INLINE apP #-}
 
 -- | Run a 'Parser', returning either @'Left' errMsg@ or @'Right'
@@ -842,9 +840,9 @@ class GFromRecord f where
     gparseRecord :: Record -> Parser (f p)
 
 instance GFromRecordSum f Record => GFromRecord (M1 i n f) where
-    gparseRecord v = 
+    gparseRecord v =
         case (IM.lookup n gparseRecordSum) of
-            Nothing -> lengthMismatch n v 
+            Nothing -> lengthMismatch n v
             Just p -> M1 <$> p v
       where
         n = V.length v
@@ -853,15 +851,15 @@ class GFromNamedRecord f where
     gparseNamedRecord :: NamedRecord -> Parser (f p)
 
 instance GFromRecordSum f NamedRecord => GFromNamedRecord (M1 i n f) where
-    gparseNamedRecord v = 
+    gparseNamedRecord v =
         foldr (\f p -> p <|> M1 <$> f v) empty (IM.elems gparseRecordSum)
 
 class GFromRecordSum f r where
     gparseRecordSum :: IM.IntMap (r -> Parser (f p))
 
 instance (GFromRecordSum a r, GFromRecordSum b r) => GFromRecordSum (a :+: b) r where
-    gparseRecordSum = 
-        IM.unionWith (\a b r -> a r <|> b r) 
+    gparseRecordSum =
+        IM.unionWith (\a b r -> a r <|> b r)
             (fmap (L1 <$>) <$> gparseRecordSum)
             (fmap (R1 <$>) <$> gparseRecordSum)
 
