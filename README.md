@@ -1,4 +1,7 @@
-# README ![Build Status](https://github.com/dmvianna/csv-conduit/actions/workflows/cabal.yml/badge.svg)
+# README
+![cabal build](https://github.com/dmvianna/csv-conduit/actions/workflows/cabal.yml/badge.svg)
+![stack build](https://github.com/dmvianna/csv-conduit/actions/workflows/stack.yml/badge.svg)
+
 ## CSV Files and Haskell
 
 CSV files are the de-facto standard in many cases of data transfer,

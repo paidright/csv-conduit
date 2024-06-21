@@ -12,13 +12,13 @@
 #
 # REGENDATA ("0.19.20240608",["github","csv-conduit.cabal"])
 #
-name: Haskell-CI
+name: cabal
 on:
   - push
   - pull_request
 jobs:
   linux:
-    name: Haskell-CI - Linux - ${{ matrix.compiler }}
+    name: Linux - cabal - ${{ matrix.compiler }}
     runs-on: ubuntu-20.04
     timeout-minutes:
       60
