@@ -1,5 +1,4 @@
-# README [![Build Status](https://travis-ci.org/ozataman/csv-conduit.svg?branch=master)](https://travis-ci.org/ozataman/csv-conduit)
-
+# README ![Build Status](https://github.com/dmvianna/csv-conduit/actions/workflows/haskell-ci.yml/badge.svg)
 ## CSV Files and Haskell
 
 CSV files are the de-facto standard in many cases of data transfer,
