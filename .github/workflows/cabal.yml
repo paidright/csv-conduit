@@ -18,7 +18,7 @@ on:
   - pull_request
 jobs:
   linux:
-    name: Linux - cabal - ${{ matrix.compiler }}
+    name: ${{ matrix.compiler }}
     runs-on: ubuntu-20.04
     timeout-minutes:
       60
