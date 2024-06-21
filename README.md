@@ -1,6 +1,7 @@
 # README
-![cabal build](https://github.com/dmvianna/csv-conduit/actions/workflows/cabal.yml/badge.svg)
-![stack build](https://github.com/dmvianna/csv-conduit/actions/workflows/stack.yml/badge.svg)
+[![cabal
+build](https://github.com/dmvianna/csv-conduit/actions/workflows/cabal.yml/badge.svg)](https://github.com/dmvianna/csv-conduit/actions)
+[![stack build](https://github.com/dmvianna/csv-conduit/actions/workflows/stack.yml/badge.svg)](https://github.com/dmvianna/csv-conduit/actions)
 
 ## CSV Files and Haskell
 
