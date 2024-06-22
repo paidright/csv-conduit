@@ -1,48 +1,50 @@
-{-# LANGUAGE BangPatterns          #-}
-{-# LANGUAGE CPP                   #-}
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE BangPatterns #-}
+{-# LANGUAGE CPP #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings     #-}
-{-# LANGUAGE RankNTypes            #-}
-{-# LANGUAGE ScopedTypeVariables   #-}
-{-# LANGUAGE TypeSynonymInstances  #-}
-{-# LANGUAGE UndecidableInstances  #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 module Data.CSV.Conduit
-    (
-
-    -- * Main Interface
-      decodeCSV
-    , readCSVFile
-    , writeCSVFile
-    , transformCSV
-    , transformCSV'
-    , mapCSVFile
-    , writeHeaders
-    , writeHeadersOrdered
-
+  ( -- * Main Interface
+    decodeCSV,
+    readCSVFile,
+    writeCSVFile,
+    transformCSV,
+    transformCSV',
+    mapCSVFile,
+    writeHeaders,
+    writeHeadersOrdered,
     -- Types
-    , CSV (..)
-    , CSVSettings (..)
-    , defCSVSettings
-    , MapRow
-    , OrderedMapRow
-    , Row
+    CSV (..),
+    CSVSettings (..),
+    defCSVSettings,
+    MapRow,
+    OrderedMapRow,
+    Row,
 
     -- * Re-exported For Convenience
-    , runResourceT
-    ) where
+    runResourceT,
+  )
+where
 
+-- working around versions without patchlevel
+#ifndef __GLASGOW_HASKELL_PATCHLEVEL2__
+#define __GLASGOW_HASKELL_PATCHLEVEL2__ 0
+#endif
 -------------------------------------------------------------------------------
 import           Control.Exception
-import           Control.Monad.Catch.Pure           (CatchT)
-import           Control.Monad.Catch.Pure           (runCatchT)
+import           Control.Monad.Catch.Pure           (CatchT, runCatchT)
 import           Control.Monad.Except
+#if MIN_VERSION_GLASGOW_HASKELL(9,5,0,0)
 import           Control.Monad.IO.Class             (MonadIO (liftIO))
+import           Control.Monad.Trans.Class          (lift)
+#endif
 import           Control.Monad.Primitive
 import           Control.Monad.ST
-import           Control.Monad.Trans.Class          (lift)
 import           Control.Monad.Trans.Resource       (MonadResource, MonadThrow,
                                                      runResourceT)
 import           Data.Attoparsec.Types              (Parser)
